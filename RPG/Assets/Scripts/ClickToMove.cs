@@ -8,6 +8,8 @@ public class ClickToMove : MonoBehaviour {
     CharacterController playerController;
     RaycastHit hit;
     Ray ray;
+    public AnimationClip run;
+    public AnimationClip idle;
     void Awake()
     {
         playerController = GetComponent<CharacterController>();
@@ -56,7 +58,14 @@ public class ClickToMove : MonoBehaviour {
             //Rotate the player smoothly by using slerp function towards the target rotation
             transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * 10f);
             //Move the player towards the target
-            playerController.SimpleMove(transform.forward);
+            playerController.SimpleMove(transform.forward * speed);
+            //GetComponent<Animation>().Play(run.name);     //Play the run animation
+            GetComponent<Animation>().CrossFade(run.name);  //Smooth the animation transition
+        }
+        else
+        {
+            //GetComponent<Animation>().Play(idle.name); //Play the idle animation
+            GetComponent<Animation>().CrossFade(idle.name); //smooth animation transition
         }
     }
 }
